@@ -86,12 +86,35 @@ body {
 }
 
 @media (max-width: 768px) {
+  /* O cabeçalho continua em linha, mas as logos diminuem */
+  .header-content {
+    /* Removemos o flex-direction: column */
+    /* Adicionamos um pequeno padding para não colar nas bordas */
+    padding: 0 10px;
+  }
+
+  .logo {
+    /* Diminui a altura da logo de 50px para 35px no celular */
+    height: 35px;
+  }
+
+  /* Os títulos do cabeçalho também diminuem um pouco */
+  .header-titles h1 {
+    font-size: 1rem;
+  }
+  .header-titles h2 {
+    font-size: 0.9rem;
+  }
+
+  /* O conteúdo principal continua empilhado (uma coluna) */
   .main-content {
     grid-template-columns: 1fr;
-  } /* Celular: uma coluna */
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
+  }
+
+  /* Ajusta o tamanho dos cards para não ficarem com texto muito grande */
+  .card {
+    padding: 1.5rem;
   }
 }
 
