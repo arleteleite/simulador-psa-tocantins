@@ -86,33 +86,41 @@ body {
 }
 
 @media (max-width: 768px) {
-  /* O cabeçalho continua em linha, mas as logos diminuem */
+  /* Cabeçalho mais compacto */
+  .main-header {
+    padding: 0.5rem 0; /* Reduz altura geral do cabeçalho */
+  }
+
   .header-content {
-    /* Removemos o flex-direction: column */
-    /* Adicionamos um pequeno padding para não colar nas bordas */
-    padding: 0 10px;
+    padding: 0 5px; /* Menos espaço nas laterais */
+    gap: 8px; /* Aproxima logos do texto */
   }
 
+  /* Logos menores */
   .logo {
-    /* Diminui a altura da logo de 50px para 35px no celular */
-    height: 35px;
+    height: 32px; /* Reduzido levemente para dar espaço ao texto */
   }
 
-  /* Os títulos do cabeçalho também diminuem um pouco */
+  /* Texto centralizado e em linha única */
   .header-titles h1 {
-    font-size: 1rem;
-  }
-  .header-titles h2 {
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* Fonte menor para caber */
+    white-space: nowrap; /* OBRIGA a ficar numa linha só */
+    margin-bottom: 0; /* Remove margem extra */
+    line-height: 1.2;
   }
 
-  /* O conteúdo principal continua empilhado (uma coluna) */
+  .header-titles h2 {
+    font-size: 0.75rem;
+    margin-top: 2px;
+  }
+
+  /* Conteúdo principal empilhado */
   .main-content {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    margin-top: 1rem; /* Sobe um pouco o conteúdo */
   }
 
-  /* Ajusta o tamanho dos cards para não ficarem com texto muito grande */
   .card {
     padding: 1.5rem;
   }

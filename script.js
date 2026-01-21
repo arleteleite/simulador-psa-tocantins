@@ -173,3 +173,26 @@ function atualizarTela(total, vRl, vExc, aRl, aExc, aviso) {
 function formatarMoeda(valor) {
   return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
+
+/* =========================================
+   5. CONTROLE DO BOTÃO FLUTUANTE (Não cobrir rodapé)
+   ========================================= */
+window.addEventListener("scroll", function () {
+  const btnWhats = document.querySelector(".whatsapp-float");
+  const footer = document.querySelector(".main-footer");
+
+  // Pega a posição do rodapé em relação à janela
+  const footerRect = footer.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+
+  // Se o topo do rodapé estiver visível na tela
+  if (footerRect.top < windowHeight) {
+    // Calcula quanto do rodapé está visível
+    const diferenca = windowHeight - footerRect.top;
+    // Empurra o botão para cima (20px margem original + altura visível do footer)
+    btnWhats.style.bottom = `${20 + diferenca}px`;
+  } else {
+    // Se o rodapé não está visível, mantém na posição original
+    btnWhats.style.bottom = "20px";
+  }
+});
