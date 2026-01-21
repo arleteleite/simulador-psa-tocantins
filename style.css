@@ -1,0 +1,332 @@
+:root {
+  /* Paleta baseada no PowerBI Floresta+ */
+  --color-primary: #4a6838; /* Verde Musgo Institucional */
+  --color-primary-dark: #354f28;
+  --color-secondary: #8ba856; /* Verde Oliva claro para detalhes */
+  --color-accent: #d4e157; /* Verde brilhante para gráficos/destaques */
+
+  --bg-body: #f3f4f6; /* Cinza gelo muito suave */
+  --bg-card: #ffffff;
+
+  --text-main: #2c3e50;
+  --text-muted: #64748b;
+
+  --shadow-card:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utilitários */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- AQUI ESTÁ A CORREÇÃO --- */
+.hidden {
+  display: none !important;
+}
+
+/* Header */
+.main-header {
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-card);
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-titles {
+  text-align: center;
+}
+.header-titles h1 {
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.header-titles h2 {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.logo {
+  height: 50px;
+  width: auto; /* Ajuste conforme suas imagens */
+}
+
+/* Main Content Grid */
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dividido em 2 colunas */
+  gap: 2rem;
+  flex: 1; /* Empurra o footer para baixo */
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  } /* Celular: uma coluna */
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  border-top: 4px solid var(--color-primary);
+}
+
+/* Estilo da Seção de Regras */
+.rules-list {
+  list-style: none;
+  margin: 1.5rem 0;
+}
+.rules-list li {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+.rules-list strong {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+}
+.btn-outline {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Formulário e Inputs */
+.input-group {
+  margin-bottom: 1.2rem;
+}
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--color-primary-dark);
+}
+input[type="number"] {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* Resultados */
+.result-box {
+  margin-top: 2rem;
+  background: #f0fdf4;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #bbf7d0;
+  animation: slideIn 0.5s ease;
+}
+
+.valor-destaque {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin: 1rem 0;
+}
+
+.result-details {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dcfce7;
+}
+
+.alert-box {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #854d0e;
+  background-color: #fef9c3;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Footer */
+.main-footer {
+  background-color: var(--color-primary-dark);
+  color: white;
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* WhatsApp Float */
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+  z-index: 1000;
+}
+.whatsapp-float:hover {
+  transform: scale(1.05);
+}
+
+/* =========================================
+   MODAL (Caixa de Aviso Centralizada)
+   ========================================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* Garante que fique acima de tudo */
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background-color: white;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-header {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.close-btn {
+  font-size: 24px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.close-btn:hover {
+  color: var(--color-accent);
+}
+
+.modal-body {
+  padding: 25px 20px;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+.modal-footer {
+  padding: 10px 20px 20px;
+  text-align: center;
+}
+
+/* Animações suaves */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes scaleUp {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
