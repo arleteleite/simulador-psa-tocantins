@@ -91,12 +91,12 @@ function calcularPSA() {
     // Verifica Teto
     if (valorTotal > CONFIG.LIMITES.TETO_ANUAL) {
       valorTotal = CONFIG.LIMITES.TETO_ANUAL;
-      msgAviso = `⚠️ Valor limitado ao teto anual de ${formatarMoeda(CONFIG.LIMITES.TETO_ANUAL)}.`;
+      msgAviso = `Valor limitado ao teto anual de ${formatarMoeda(CONFIG.LIMITES.TETO_ANUAL)}.`;
     }
     // Verifica Piso (se for menor que o piso mas maior que zero, sobe para o piso)
     else if (valorTotal < CONFIG.LIMITES.PISO_ANUAL) {
       valorTotal = CONFIG.LIMITES.PISO_ANUAL;
-      msgAviso = `ℹ️ Valor ajustado para o piso mínimo de ${formatarMoeda(CONFIG.LIMITES.PISO_ANUAL)}.`;
+      msgAviso = `Valor ajustado para o piso mínimo de ${formatarMoeda(CONFIG.LIMITES.PISO_ANUAL)}.`;
     }
   }
 
