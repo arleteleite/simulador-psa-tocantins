@@ -190,9 +190,9 @@ window.addEventListener("scroll", function () {
     // Calcula quanto do rodapé está visível
     const diferenca = windowHeight - footerRect.top;
     // Empurra o botão para cima (20px margem original + altura visível do footer)
-    btnWhats.style.bottom = `${20 + diferenca}px`;
+    btnWhats.style.bottom = `${5 + diferenca}px`;
   } else {
     // Se o rodapé não está visível, mantém na posição original
-    btnWhats.style.bottom = "20px";
+    btnWhats.style.bottom = "15px";
   }
 });
