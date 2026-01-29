@@ -1,143 +1,104 @@
 /* =========================================
-   1. CONFIGURAÇÕES GERAIS (Regras de Negócio)
+   1. Configurações e Constantes
    ========================================= */
 const CONFIG = {
   MODULO_FISCAL_HA: 80,
   MAX_MODULOS: 4,
-
   LIMITES: {
-    AREA_PAGA_RL: 60, // Até 60ha
-    AREA_PAGA_EXC: 20, // Até 20ha
-    PISO_ANUAL: 1500, // Mínimo R$ 1.500
-    TETO_ANUAL: 28000, // Máximo R$ 28.000
+    AREA_PAGA_RL: 60,
+    AREA_PAGA_EXC: 20,
+    PISO_ANUAL: 1500,
+    TETO_ANUAL: 28000,
   },
-
   VALORES: {
-    RL_HA: 200, // R$ 200/ha
-    EXCEDENTE_HA: 800, // R$ 800/ha
+    RL_HA: 200,
+    EXCEDENTE_HA: 800,
   },
 };
+
+// Formatação de Moeda
+const formatarMoeda = (valor) =>
+  valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 /* =========================================
-   2. CONTROLE DO MODAL (Janela de Alerta)
+   2. Inicialização e Eventos
    ========================================= */
-
-// Função para abrir o modal com texto personalizado
-function mostrarModal(titulo, mensagem) {
-  const modal = document.getElementById("modalAviso");
-
-  // Injeta os textos
-  document.getElementById("modalTitulo").innerText = titulo;
-  document.getElementById("modalMensagem").innerText = mensagem;
-
-  // Mostra o modal removendo a classe 'hidden'
-  modal.classList.remove("hidden");
-}
-
-// Função para fechar o modal
-function fecharModal() {
-  const modal = document.getElementById("modalAviso");
-  modal.classList.add("hidden");
-}
-
-// Fecha o modal se o usuário clicar fora da caixinha branca
-window.onclick = function (event) {
-  const modal = document.getElementById("modalAviso");
-  if (event.target === modal) {
-    fecharModal();
-  }
-};
-
-// (Extra) Fecha o modal se apertar a tecla ESC
-document.addEventListener("keydown", function (event) {
-  if (event.key === "Escape") {
-    fecharModal();
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("formPSA");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    calcularPSA();
+  });
 });
 
 /* =========================================
-   3. LÓGICA PRINCIPAL (Cálculo PSA)
+   3. Lógica de Cálculo e Validação
    ========================================= */
-
 function calcularPSA() {
-  // 1. Obter dados (convertendo para número)
   const areaTotal = parseFloat(document.getElementById("areaTotal").value) || 0;
   const rlExigida = parseFloat(document.getElementById("rlExigida").value) || 0;
   const vegNativa = parseFloat(document.getElementById("vegNativa").value) || 0;
 
-  // 2. Validações (Chama o Modal se der erro)
-  if (!validarEntradas(areaTotal, vegNativa)) return;
+  if (!validarEntradas(areaTotal, rlExigida, vegNativa)) return;
 
-  // 3. Cálculos de Áreas
-  // RL: É o menor valor entre o que tem de nativa e o que é exigido
+  // Lógica de cálculo (Mantida do original [6])
   const areaParaRL = Math.min(vegNativa, rlExigida);
-
-  // Excedente: O que sobra da nativa depois de descontar a RL exigida
   const sobraVegetacao = Math.max(vegNativa - rlExigida, 0);
 
-  // 4. Aplicação das Regras de Pagamento (Travas de área)
   const areaPagaRL = Math.min(areaParaRL, CONFIG.LIMITES.AREA_PAGA_RL);
   const areaPagaExc = Math.min(sobraVegetacao, CONFIG.LIMITES.AREA_PAGA_EXC);
 
-  // 5. Cálculo Financeiro Bruto
   const valorRL = areaPagaRL * CONFIG.VALORES.RL_HA;
   const valorExc = areaPagaExc * CONFIG.VALORES.EXCEDENTE_HA;
-  let valorTotal = valorRL + valorExc;
 
-  // 6. Aplicação de Piso e Teto Financeiro
+  let valorTotal = valorRL + valorExc;
   let msgAviso = "";
 
-  if (valorTotal > 0) {
-    // Verifica Teto
-    if (valorTotal > CONFIG.LIMITES.TETO_ANUAL) {
-      valorTotal = CONFIG.LIMITES.TETO_ANUAL;
-      msgAviso = `Valor limitado ao teto anual de ${formatarMoeda(CONFIG.LIMITES.TETO_ANUAL)}.`;
-    }
-    // Verifica Piso (se for menor que o piso mas maior que zero, sobe para o piso)
-    else if (valorTotal < CONFIG.LIMITES.PISO_ANUAL) {
-      valorTotal = CONFIG.LIMITES.PISO_ANUAL;
-      msgAviso = `Valor ajustado para o piso mínimo de ${formatarMoeda(CONFIG.LIMITES.PISO_ANUAL)}.`;
-    }
+  // Pisos e Tetos [7]
+  if (valorTotal > CONFIG.LIMITES.TETO_ANUAL) {
+    valorTotal = CONFIG.LIMITES.TETO_ANUAL;
+    msgAviso = `Valor limitado ao teto anual de ${formatarMoeda(CONFIG.LIMITES.TETO_ANUAL)}.`;
+  } else if (valorTotal > 0 && valorTotal < CONFIG.LIMITES.PISO_ANUAL) {
+    valorTotal = CONFIG.LIMITES.PISO_ANUAL;
+    msgAviso = `Valor ajustado para o piso mínimo de ${formatarMoeda(CONFIG.LIMITES.PISO_ANUAL)}.`;
   }
 
-  // 7. Atualizar a Interface
-  atualizarTela(
-    valorTotal,
-    valorRL,
-    valorExc,
-    areaPagaRL,
-    areaPagaExc,
-    msgAviso,
-  );
+  atualizarTela(valorTotal, valorRL, valorExc, msgAviso);
 }
 
-/* =========================================
-   4. FUNÇÕES AUXILIARES
-   ========================================= */
-
-function validarEntradas(areaTotal, vegNativa) {
-  if (vegNativa <= 0) {
-    mostrarModal(
-      "Dado Inválido",
-      "A área de vegetação nativa deve ser maior que zero para participar do projeto.",
-    );
-    return false;
-  }
-
+function validarEntradas(areaTotal, rlExigida, vegNativa) {
+  // Validação 1: Módulos Fiscais [8]
   const limiteArea = CONFIG.MODULO_FISCAL_HA * CONFIG.MAX_MODULOS;
-
   if (areaTotal > limiteArea) {
     mostrarModal(
       "Critério de Elegibilidade",
-      `Imóvel inelegível: A área total (${areaTotal} ha) é maior que ${CONFIG.MAX_MODULOS} módulos fiscais (${limiteArea} ha).`,
+      `Imóvel inelegível: Área total (${areaTotal}ha) maior que ${CONFIG.MAX_MODULOS} módulos fiscais.`,
     );
     return false;
   }
 
-  if (areaTotal < vegNativa) {
+  // Validação 2: Vegetação Nativa vs Área Total [9]
+  if (vegNativa > areaTotal) {
     mostrarModal(
       "Erro de Preenchimento",
-      "A vegetação nativa não pode ser maior que a área total do imóvel.",
+      "A vegetação nativa não pode ser superior à área total do imóvel.",
+    );
+    return false;
+  }
+
+  // NOVO: Validação 3: Reserva Legal vs Área Total (Solicitado)
+  if (rlExigida > areaTotal) {
+    mostrarModal(
+      "Erro de Preenchimento",
+      "A área de Reserva Legal não pode ser superior à área total do imóvel.",
+    );
+    return false;
+  }
+
+  if (vegNativa <= 0) {
+    mostrarModal(
+      "Dado Inválido",
+      "Informe uma área de vegetação nativa válida.",
     );
     return false;
   }
@@ -145,54 +106,95 @@ function validarEntradas(areaTotal, vegNativa) {
   return true;
 }
 
-function atualizarTela(total, vRl, vExc, aRl, aExc, aviso) {
+function atualizarTela(total, vRl, vExc, aviso) {
   const resultadoDiv = document.getElementById("resultado");
-  const divAviso = document.getElementById("msgAviso");
-
-  // Preenche valores
-  document.getElementById("valorFinal").innerText = formatarMoeda(total);
-
-  document.getElementById("detalheRL").innerHTML =
-    `${formatarMoeda(vRl)} <br><small>(${aRl.toFixed(2)} ha computados)</small>`;
-
-  document.getElementById("detalheExc").innerHTML =
-    `${formatarMoeda(vExc)} <br><small>(${aExc.toFixed(2)} ha computados)</small>`;
-
-  // Mostra/Esconde aviso dentro do card de resultado
-  if (aviso) {
-    divAviso.innerText = aviso;
-    divAviso.classList.remove("hidden");
-  } else {
-    divAviso.classList.add("hidden");
-  }
-
-  // Mostra o card de resultado
   resultadoDiv.classList.remove("hidden");
-}
 
-function formatarMoeda(valor) {
-  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  document.getElementById("valorFinal").innerText = formatarMoeda(total);
+  document.getElementById("detalheRL").innerText = formatarMoeda(vRl);
+  document.getElementById("detalheExc").innerText = formatarMoeda(vExc);
+
+  const msgElement = document.getElementById("msgAviso");
+  if (aviso) {
+    msgElement.innerText = aviso;
+    msgElement.classList.remove("hidden");
+  } else {
+    msgElement.classList.add("hidden");
+  }
 }
 
 /* =========================================
-   5. CONTROLE DO BOTÃO FLUTUANTE (Não cobrir rodapé)
+   Controle do Modal (Aviso)
    ========================================= */
+
+// Função auxiliar para abrir o modal
+function mostrarModal(titulo, mensagem) {
+  const modal = document.getElementById("modalAviso");
+  const tituloEl = document.getElementById("modalTitulo");
+  const msgEl = document.getElementById("modalMensagem");
+
+  if (modal && tituloEl && msgEl) {
+    tituloEl.innerText = titulo;
+    msgEl.innerText = mensagem;
+    modal.classList.remove("hidden"); // Remove a classe que esconde [10]
+  }
+}
+
+// Configuração dos Eventos ao carregar a página [11]
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("modalAviso");
+  const btnFechar = document.getElementById("btnFecharModal");
+
+  // 1. Evento para o botão "Entendi"
+  if (btnFechar) {
+    btnFechar.addEventListener("click", () => {
+      modal.classList.add("hidden"); // Adiciona a classe para esconder [9]
+    });
+  }
+
+  // 2. Evento para fechar clicando fora da caixa branca (Overlay) [9]
+  if (modal) {
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.classList.add("hidden");
+      }
+    });
+  }
+});
+
+function abrirModalRegras() {
+  const modal = document.getElementById("modalRegras");
+  modal.classList.remove("hidden"); // Remove a classe que esconde
+}
+
+function fecharModalRegras(event) {
+  // Se clicou no botão ou no fundo escuro (overlay), fecha
+  // Se clicou DENTRO do conteúdo branco, não fecha
+  if (event === null || event.target.id === "modalRegras") {
+    const modal = document.getElementById("modalRegras");
+    modal.classList.add("hidden"); // Adiciona a classe que esconde
+  }
+}
+/* --- Controle do Botão Flutuante (Não cobrir rodapé) --- */
 window.addEventListener("scroll", function () {
   const btnWhats = document.querySelector(".whatsapp-float");
   const footer = document.querySelector(".main-footer");
 
-  // Pega a posição do rodapé em relação à janela
+  if (!btnWhats || !footer) return; // Segurança caso não ache os elementos
+
+  // Pega a posição do rodapé em relação à janela visual
   const footerRect = footer.getBoundingClientRect();
   const windowHeight = window.innerHeight;
 
-  // Se o topo do rodapé estiver visível na tela
+  // Se o topo do rodapé apareceu na tela (ficou menor que a altura da janela)
   if (footerRect.top < windowHeight) {
     // Calcula quanto do rodapé está visível
     const diferenca = windowHeight - footerRect.top;
+
     // Empurra o botão para cima (20px margem original + altura visível do footer)
-    btnWhats.style.bottom = `${5 + diferenca}px`;
+    btnWhats.style.bottom = `${20 + diferenca}px`;
   } else {
     // Se o rodapé não está visível, mantém na posição original
-    btnWhats.style.bottom = "15px";
+    btnWhats.style.bottom = "20px";
   }
 });

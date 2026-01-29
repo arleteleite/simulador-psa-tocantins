@@ -3,200 +3,318 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulador PSA - Floresta+ Tocantins</title>
+    <title>Simulador PSA Floresta+ Amazônia</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Cabeçalho: Logotipo do Governo em Cima -->
     <header class="main-header">
-      <div class="container header-content">
+      <div class="header-content">
+        <!-- Item 1: Logo Governo (Esquerda) -->
         <img
           src="assets/img/logo-tocantins.png"
           alt="Governo do Tocantins"
-          class="logo"
+          class="logo-gov"
         />
-        <div class="header-titles">
+
+        <!-- Item 2: Títulos (Centro) -->
+        <div class="text-center">
           <h1>Simulador PSA</h1>
-          <h2>Floresta+ Amazônia</h2>
+          <!-- <p>Floresta+ Amazônia</p> -->
         </div>
+
+        <!-- Item 3: Logo Parceiros (Direita) - Adicione se tiver uma segunda logo -->
+        <!-- Se não tiver segunda logo, o Flexbox vai alinhar a logo 1 e o texto -->
         <img
           src="assets/img/logo-floresta.png"
-          alt="Floresta+ Amazônia"
-          class="logo"
+          alt="Parceiros"
+          class="logo-partners"
         />
       </div>
     </header>
 
-    <main class="container main-content">
-      <section class="info-panel">
-        <div class="card info-card">
-          <h3>Regras do Projeto</h3>
-          <p>Entenda os valores praticados no Edital de Conservação.</p>
+    <main class="container">
+      <!-- Seção de Regras com Texto da Revisão -->
+      <section class="rules-section">
+        <!-- Título Principal da Seção -->
+        <h2>Regras da Chamada Pública Nº 02/2024</h2>
+        <p class="rules-desc">
+          Entenda os valores praticados no Edital de Conservação.
+        </p>
 
-          <ul class="rules-list">
-            <li>
-              <strong>R$ 200,00</strong>
-              <span>por hectare de Reserva Legal (RL) por ano</span>
-            </li>
-            <li>
-              <strong>R$ 800,00</strong>
-              <span>por hectare de Excedente de Vegetação Nativa por ano</span>
-            </li>
-            <li>
-              <strong>R$ 28.000,00</strong>
-              <span>é o teto máximo anual por beneficiário</span>
-            </li>
-          </ul>
+        <!-- Container do Cabeçalho das Regras (Título menor + Botão) -->
+        <div class="rules-header-content">
+          <h3>Regras de Valores</h3>
+          <button onclick="abrirModalRegras()" class="btn-text-link">
+            (Ver detalhes e faixas)
+          </button>
+        </div>
 
-          <div class="botoes-row">
-            <div class="cta-box">
-              <p>Confira todas as regras:</p>
-              <a
-                href="https://www.florestamaisamazonia.org.br/novo/editais/conservacao/"
-                target="_blank"
-                class="btn-full"
-              >
-                Acessar Edital Oficial
-              </a>
-            </div>
+        <!-- Container dos Cards (Flexbox) -->
+        <div class="cards-container">
+          <!-- Card 1 -->
+          <div class="card-rule">
+            <h3>R$ 200,00</h3>
+            <small>Faixa 1</small>
+            <p>Até 80% preservado</p>
+          </div>
 
-            <div class="cta-box">
-              <p>Consulte a situação do imóvel:</p>
-              <a
-                href="http://sigcar.semarh.to.gov.br/pesquisa_publica/inicio.jhtml"
-                target="_blank"
-                class="btn-outline"
-              >
-                Acessar o SIGCAR
-              </a>
-            </div>
+          <!-- Card 2 -->
+          <div class="card-rule">
+            <h3>R$ 800,00</h3>
+            <small>Faixa 2</small>
+            <p>Mais de 80% preservado</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="card-rule">
+            <h3>Limites</h3>
+            <small>Anuais</small>
+            <p>Min R$ 1.500,00 / Max R$ 28.000,00</p>
           </div>
         </div>
       </section>
 
-      <section class="simulator-panel">
-        <div class="card simulator-card">
-          <div class="card-header">
-            <h3>Simulador de Rendimentos</h3>
-            <p>Preencha os dados do imóvel</p>
-          </div>
-
-          <form
-            id="formPSA"
-            onsubmit="
-              event.preventDefault();
-              calcularPSA();
-            "
-          >
+      <!-- Seção do Simulador -->
+      <section class="simulator-section">
+        <div class="form-box">
+          <h2>Dados do Imóvel</h2>
+          <form id="formPSA">
             <div class="input-group">
               <label for="areaTotal">Área Total do Imóvel (ha)</label>
               <input
                 type="number"
                 id="areaTotal"
-                step="0.01"
                 placeholder="Ex: 100"
+                step="0.01"
                 required
               />
             </div>
 
-            <div class="input-group">
-              <label for="rlExigida">Reserva Legal Exigida (ha)</label>
-              <input
-                type="number"
-                id="rlExigida"
-                step="0.01"
-                placeholder="Ex: 35"
-                required
-              />
-              <small
-                >Geralmente entre 35 e 80% da área do imóvel, de acordo com Lei
-                Federal nº 12.651/2012.</small
-              >
-            </div>
-
-            <div class="input-group">
-              <label for="vegNativa">Vegetação Nativa Existente (ha)</label>
-              <input
-                type="number"
-                id="vegNativa"
-                step="0.01"
-                placeholder="Ex: 40"
-                required
-              />
+            <div class="row">
+              <div class="input-group">
+                <label for="rlExigida">Reserva Legal (ha)</label>
+                <input
+                  type="number"
+                  id="rlExigida"
+                  placeholder="Ex: 35"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label for="vegNativa">Área Conservada (ha)</label>
+                <input
+                  type="number"
+                  id="vegNativa"
+                  placeholder="Ex: 40"
+                  step="0.01"
+                  required
+                />
+              </div>
             </div>
 
             <button type="submit" class="btn-primary">
-              CALCULAR POTENCIAL
+              Simular Rendimento
             </button>
           </form>
 
+          <!-- Resultado -->
           <div id="resultado" class="result-box hidden">
-            <div class="result-header">Potencial Anual a Receber</div>
-            <div class="valor-destaque" id="valorFinal">R$ 0,00</div>
-
-            <div class="result-details">
-              <div class="detail-item">
-                <span>Pela RL:</span>
-                <strong id="detalheRL">R$ 0,00</strong>
-              </div>
-              <div class="detail-item">
-                <span>Pelo Excedente:</span>
-                <strong id="detalheExc">R$ 0,00</strong>
-              </div>
+            <h3>Potencial Anual a Receber</h3>
+            <p class="valor-final" id="valorFinal">R$ 0,00</p>
+            <div class="detalhes">
+              <span class="badge"
+                >RL: <strong id="detalheRL">R$ 0</strong></span
+              >
+              <span class="badge"
+                >Excedente: <strong id="detalheExc">R$ 0</strong></span
+              >
             </div>
+            <p id="msgAviso" class="aviso hidden"></p>
+          </div>
+        </div>
 
-            <div id="msgAviso" class="alert-box hidden"></div>
+        <!-- Botões de Ação (Links Externos) [1, 2] -->
+        <div class="row">
+          <div class="action-buttons">
+            <a
+              href="https://www.florestamaisamazonia.org.br/novo/editais/conservacao/"
+              target="_blank"
+              class="btn-outline"
+            >
+              Acessar Edital Oficial
+            </a>
+            <a
+              href="http://sigcar.semarh.to.gov.br/pesquisa_publica/inicio.jhtml"
+              target="_blank"
+              class="btn-outline"
+            >
+              Acessar o SIGCAR
+            </a>
           </div>
         </div>
       </section>
     </main>
-
-    <a
-      href="https://wa.me/5563981316314?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20Projeto%20Floresta+"
-      class="whatsapp-float"
-      target="_blank"
-      title="Fale com o Ponto Focal"
+    <div
+      id="modalRegras"
+      class="modal-overlay hidden"
+      onclick="fecharModalRegras(event)"
     >
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff">
-        <path
-          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
-        />
-      </svg>
-      <span>Fale conosco</span>
-    </a>
+      <div class="modal-content" style="text-align: left; max-width: 500px">
+        <h3 style="text-align: center; margin-bottom: 1.5rem">
+          Regras da Chamada Pública Nº 02/2024
+        </h3>
 
-    <footer class="main-footer">
-      <div class="container footer-content">
-        <div class="footer-info">
+        <div style="font-size: 1.3rem; line-height: 1.6; color: #333">
+          <p><strong>Entenda os valores praticados:</strong></p>
+          <br />
           <p>
-            <strong
-              >Secretaria do Meio Ambiente e Recursos Hídricos do Tocantins
-              (SEMARH)</strong
-            >
+            <strong>R$ 200,00</strong><br />
+            Por hectare de Vegetação Nativa na <strong>Faixa 1</strong> (imóveis
+            com até 80% de Vegetação Nativa em área de Floresta, 35% em Cerrado
+            e 20% em Campos Gerais).
           </p>
-          <p>Projeto Floresta+ Amazônia</p>
+          <br />
+          <p>
+            <strong>R$ 800,00</strong><br />
+            Por hectare de Vegetação Nativa na <strong>Faixa 2</strong> (imóveis
+            com mais de 80% de Vegetação Nativa em área de Floresta, 35% em
+            Cerrado e 20% em Campos Gerais).
+          </p>
+          <br />
+          <hr style="margin: 1rem 0; border-color: #eee" />
+          <p>
+            <strong>Limites:</strong><br />
+            R$ 1.500,00 é o pagamento mínimo e <strong>R$ 28.000,00</strong> o
+            teto máximo anual por imóvel rural.
+          </p>
+          <br />
+          <p style="font-size: 1.1rem; color: #666">
+            *Uma pessoa pode receber por mais de uma área, desde que a soma de
+            todos os imóveis vinculados ao CPF não ultrapasse 4 módulos fiscais.
+          </p>
         </div>
+
+        <button
+          onclick="fecharModalRegras(null)"
+          class="btn-primary"
+          style="margin-top: 2rem"
+        >
+          Entendi
+        </button>
+      </div>
+    </div>
+
+    <!-- Rodapé Full Width -->
+    <footer class="main-footer">
+      <div class="footer-container">
+        <!-- 1. Logos dos Parceiros (Em caixa branca para destaque) -->
+        <div class="footer-logos">
+          <!-- Ajuste os caminhos (src) conforme suas pastas -->
+          <img
+            src="assets/img/logo-tocantins.png"
+            alt="Governo do Tocantins"
+            class="logo-img"
+          />
+          <div class="divider-vertical"></div>
+          <img
+            src="assets/img/regua_logos_completa-2025.png"
+            alt="Floresta+ Amazônia"
+            class="logo-img"
+          />
+        </div>
+
+        <!-- 2. Redes Sociais e Links -->
+        <div class="footer-social">
+          <p>Acompanhe a SEMARH</p>
+          <div class="social-icons">
+            <a
+              href="https://www.instagram.com/semarhtocantins/"
+              target="_blank"
+              aria-label="Instagram"
+            >
+              <!-- SVG do Instagram (Branco) -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path
+                  d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+                ></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a
+              href="https://www.to.gov.br/semarh"
+              target="_blank"
+              aria-label="Site Oficial"
+            >
+              <!-- SVG de Link/Site (Branco) -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path
+                  d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. Créditos e Desenvolvedora (Discreto) -->
         <div class="footer-credits">
-          <p>Desenvolvido por <strong>Arlete Leite Lima</strong></p>
+          <p>Secretaria do Meio Ambiente e Recursos Hídricos</p>
+          <small class="dev-name">Desenvolvido por Arlete Leite Lima</small>
         </div>
       </div>
     </footer>
 
+    <!-- Botão Flutuante do WhatsApp -->
+    <a
+      href="https://wa.me/5563984517623?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20Projeto%20Floresta%20Mais"
+      class="whatsapp-float"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Fale conosco no WhatsApp"
+    >
+      <!-- Ícone SVG do WhatsApp -->
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="#fff">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+        />
+      </svg>
+      <span>Fale Conosco</span>
+    </a>
+
+    <!-- Modal de Aviso (Script Mantido) -->
     <div id="modalAviso" class="modal-overlay hidden">
       <div class="modal-content">
-        <div class="modal-header">
-          <h3 id="modalTitulo">Atenção</h3>
-          <span class="close-btn" onclick="fecharModal()">&times;</span>
-        </div>
-        <div class="modal-body">
-          <p id="modalMensagem">Mensagem aqui...</p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn-primary" onclick="fecharModal()">Entendi</button>
-        </div>
+        <h3 id="modalTitulo">Atenção</h3>
+        <p id="modalMensagem"></p>
+        <button id="btnFecharModal" class="btn-primary">Entendi</button>
       </div>
     </div>
 
