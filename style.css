@@ -9,23 +9,33 @@
   --color-whatsapp: #25d366; /* Verde oficial do WhatsApp */
 }
 
+/* =========================================
+   1. RESET GLOBAL E CORREÇÃO DE LARGURA
+   ========================================= */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Garante que padding não aumente a largura */
 }
 html {
   font-size: 62.5%;
-} /* 1rem = 10px */
+}
 
-/* --- Ajuste no Body (Compensação do Header) --- */
+html,
+body {
+  width: 100%;
+  overflow-x: hidden; /* O PULO DO GATO: Impede que o site "dance" para os lados no celular */
+  position: relative; /* Garante posicionamento correto */
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   font-size: 1.6rem;
   background-color: var(--bg-light);
   color: var(--text);
-  padding-bottom: 4rem;
-  padding-top: 6rem;
+  /* Mantém o espaço para o header fixo, mas removemos paddings laterais */
+  padding-top: 9rem;
+  padding-bottom: 0; /* Removemos o padding inferior do body pois o footer já tem espaço */
 }
 h2 {
   font-size: 1.6rem;
@@ -282,24 +292,30 @@ p {
    RODAPÉ (Fundo Verde Total) [1]
    ========================================= */
 .main-footer {
-  background-color: var(--primary); /* Verde Floresta de fora a fora */
-  color: var(--white); /* Texto base branco */
+  background-color: var(--primary); /* Verde Floresta */
+  color: var(--white);
+
+  /* Garante ocupação total */
   width: 100%;
+  width: 100vw; /* Força bruta para pegar a largura da viewport */
+  margin: 0; /* Remove qualquer margem externa */
+
   padding: 3rem 0;
   margin-top: 4rem;
-  font-size: 1.4rem;
+
+  /* Garante que fique acima do fundo do body */
+  position: relative;
 }
 
-/* Container Centralizado [2, 3] */
+/* O container interno mantém o conteúdo alinhado, não o fundo */
 .footer-container {
-  width: 90%;
-  max-width: 600px;
-  margin: 0 auto;
+  width: 90%; /* No celular, usa 90% da tela */
+  max-width: 600px; /* No PC, trava em 600px */
+  margin: 0 auto; /* Centraliza o conteúdo no meio da faixa verde */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem; /* Espaço entre Logos, Social e Créditos */
-  text-align: center;
+  gap: 2.5rem;
 }
 
 /* --- 1. Logos (Fundo branco para destacar no verde) --- */
