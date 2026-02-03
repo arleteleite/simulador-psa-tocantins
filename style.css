@@ -29,16 +29,17 @@ body {
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.6rem;
   background-color: var(--bg-light);
   color: var(--text);
   /* Mantém o espaço para o header fixo, mas removemos paddings laterais */
   padding-top: 9rem;
   padding-bottom: 0; /* Removemos o padding inferior do body pois o footer já tem espaço */
+  padding-top: 14rem;
 }
 h2 {
-  font-size: 1.6rem;
+  font-size: 2rem;
 }
 
 /* --- Main como Caixa Única (Refatorado) --- */
@@ -46,7 +47,6 @@ main.container {
   background-color: var(--white); /* Fundo branco fixado */
   border-radius: 12px;
   box-shadow: var(--shadow); /* Usando a variável correta */
-  border-top: 4px solid var(--primary); /* Detalhe verde no topo */
   /* Espaçamento e Dimensões */
   padding: 1.5rem;
   width: 95%; /* Um pouco mais largo no mobile */
@@ -61,36 +61,102 @@ main.container {
 /* --- Cabeçalho Fixo e Layout --- */
 /* --- Cabeçalho Fixo --- */
 .main-header {
-  background-color: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-image:
+    linear-gradient(to bottom, rgba(20, 40, 15, 0.6), rgba(45, 74, 34, 0.4)),
+    url('assets/img/backgraud_cabecalho.png');
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra suave */
+
+  /* Fixação no topo */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 1rem 0;
+  height: 100%;
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  padding: 1.5rem 0;
+  height: auto; /* Altura automática para caber o conteúdo empilhado */
 }
 
 /* Container interno flexível */
 .header-content {
-  display: flex; /* Coloca logos e texto lado a lado [3] */
-  justify-content: space-between; /* Separa os elementos nas extremidades */
-  align-items: center; /* Centraliza verticalmente [4] */
-  width: 90%;
-  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  max-width: 1000px; /* Largura máxima maior para caber as 3 peças */
   margin: 0 auto;
+  padding: 0 1rem;
+  gap: 0.8rem;
 }
 
-/* Ajuste das Logos no Desktop */
-.logo-gov,
-.logo-partners {
-  height: 50px; /* Altura padrão desktop */
-  width: auto; /* Mantém a proporção */
+/* --- Configuração das Logos --- */
+/* --- Linha das Logos (Lado a Lado) --- */
+.logos-row {
+  display: flex; /* Garante que fiquem na mesma linha */
+  align-items: center;
+  gap: 25rem; /* Distância entre a logo do Gov e do Parceiro */
+  filter: brightness(0) invert(1);
+}
+
+.logo-img {
+  height: 38px; /* Altura padrão desktop */
+  width: auto; /* Mantém proporção */
+  display: block;
+}
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Linha vertical fina entre as logos */
+/* .separator {
+  width: 1px;
+  height: 25px;
+  background-color: rgba(255, 255, 255, 0.4);
+} */
+/* Garante que as áreas das logos tenham tamanho similar para manter o título no centro exato */
+.header-logo-left,
+.header-logo-right {
+  flex: 1; /* Ocupa espaço disponível lateral */
+  display: flex;
+}
+
+.header-logo-left {
+  justify-content: flex-start;
+} /* Alinha na esquerda */
+.header-logo-right {
+  justify-content: flex-end;
+} /* Alinha na direita */
+
+/* --- Configuração dos Títulos --- */
+.header-titles {
+  flex: 2; /* Ocupa mais espaço no centro */
+  text-align: center;
+}
+
+.header-titles h1 {
+  font-size: 2.2rem;
+  color: var(--white);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.header-titles p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  margin-top: 0.2rem;
 }
 
 /* --- Compensação para o Conteúdo não ficar escondido --- */
 body {
-  padding-top: 8rem;
+  padding-top: 14rem;
 }
 
 /* --- Cabeçalho Interno das Regras --- */
@@ -106,9 +172,13 @@ body {
 p {
   margin: 1.5rem 0rem;
 }
+.rules-desc {
+  font-size: 1.4rem;
+}
 
 .rules-header-content {
   margin-bottom: 1rem;
+  justify-content: left;
 }
 .rules-header-content h3 {
   font-size: 1.6rem;
@@ -289,119 +359,199 @@ p {
 }
 
 /* =========================================
-   RODAPÉ (Fundo Verde Total) [1]
+   RODAPÉ (Refatorado para Mobile)
    ========================================= */
 .main-footer {
-  background-color: var(--primary); /* Verde Floresta */
-  color: var(--white);
-
-  /* Garante ocupação total */
-  width: 100%;
-  width: 100vw; /* Força bruta para pegar a largura da viewport */
-  margin: 0; /* Remove qualquer margem externa */
-
-  padding: 3rem 0;
-  margin-top: 4rem;
-
-  /* Garante que fique acima do fundo do body */
-  position: relative;
-}
-
-/* O container interno mantém o conteúdo alinhado, não o fundo */
-.footer-container {
-  width: 90%; /* No celular, usa 90% da tela */
-  max-width: 600px; /* No PC, trava em 600px */
-  margin: 0 auto; /* Centraliza o conteúdo no meio da faixa verde */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2.5rem;
-}
-
-/* --- 1. Logos (Fundo branco para destacar no verde) --- */
-.footer-logos {
+  /* Garante o fundo verde conforme seu comentário "Fundo Verde Total" */
   background-color: var(--white);
-  padding: 1rem 2rem;
-  border-radius: 50px; /* Cria uma pílula branca suave */
+  color: var(--white);
+  width: 100%;
+
+  /* Padding Padrão (Desktop): Equilibrado em cima e embaixo */
+  padding: 2rem 0;
+  margin-top: 4rem;
+}
+
+.footer-container {
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
+
+  /* Flexbox para empilhar verticalmente */
+  display: flex;
+  flex-direction: column; /* [7, 8] */
+  align-items: center; /* [9, 10] */
+
+  /* Espaço padrão entre os blocos (Logos / Social / Créditos) */
+  gap: 1.5rem; /* [3] */
+}
+
+/* --- Logos --- */
+.footer-logos {
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .logo-img {
-  height: 35px; /* Tamanho controlado */
+  height: 35px; /* Tamanho padrão */
   width: auto;
 }
 
-.divider-vertical {
-  width: 1px;
-  height: 25px;
-  background-color: #ddd; /* Linha sutil separando as logos */
-}
-
-/* --- 2. Redes Sociais --- */
-.footer-social p {
-  margin-bottom: 1rem;
-  font-weight: 600;
-  opacity: 0.9;
+/* --- Social --- */
+.footer-social {
+  text-align: center;
+  color: var(--primary);
 }
 
 .social-icons {
   display: flex;
-  justify-content: center;
-  gap: 2rem;
+  justify-content: center; /* [11, 12] */
+  gap: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 .social-icons a {
-  color: var(--white);
-  transition:
-    transform 0.2s,
-    color 0.2s;
+  color: var(--primary); /* Ícones brancos sobre fundo verde */
 }
 
 .social-icons a:hover {
-  color: var(--accent); /* Amarelo/Lima ao passar o mouse */
-  transform: translateY(-3px);
+  color: var(--accent);
 }
 
-/* --- 3. Créditos e Nome Discreto --- */
+/* --- Créditos --- */
+.footer-credits {
+  display: flex;
+  flex-direction: column; /* [13] */
+  align-items: center;
+  text-align: center; /* [5] */
+  gap: 0.2rem; /* Texto bem junto (Secretaria + Dev) */
+  width: 100%;
+}
+
 .footer-credits p {
   font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin: 0;
+  color: var(--secondary); /* Ajustado para branco para ler no fundo verde */
 }
 
-/* O SEGREDO DO "DISCRETO" */
 .dev-name {
-  display: block;
   font-size: 1.1rem;
-  font-weight: 400;
-  /* Branco com 50% de transparência: legível, mas não chama atenção */
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 0.5px;
+  /* Branco com transparência para ficar discreto */
+  color: rgba(30, 53, 21, 0.9);
+  margin-top: 0.2rem;
 }
 
-/* --- Modal --- */
+/* =========================================
+   MODAL DE REGRAS (Estilo Popup / Aviso)
+   Fontes: [1], [2]
+   ========================================= */
+
+/* 1. O Fundo Escuro (Overlay) - Centraliza o Modal */
 .modal-overlay {
-  position: fixed;
+  position: fixed; /* Fixa na tela sobre tudo [1] */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro transparente */
+  backdrop-filter: blur(2px); /* Desfoque suave no fundo (opcional) */
+  z-index: 2000; /* Garante prioridade sobre o cabeçalho */
+
+  /* Flexbox para centralizar a caixa branca perfeitamente */
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* Animação suave de entrada */
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
-.modal-content {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 12px;
+
+/* Classe utilitária para esconder via JS */
+.modal-overlay.hidden {
+  display: none;
+  opacity: 0;
+}
+
+/* 2. A Caixa Branca (Container das Regras) */
+.modal-regras {
+  background-color: var(--white); /* ou #ffffff */
   width: 90%;
-  max-width: 400px;
+  max-width: 500px; /* Limite de largura no Desktop */
+  max-height: 90vh; /* Evita que ultrapasse a altura da tela */
+
+  padding: 2rem;
+  border-radius: 12px; /* Bordas arredondadas modernas */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidade */
+
+  display: flex;
+  flex-direction: column; /* Organiza título, texto e botão em coluna */
+  text-align: left;
+  position: relative;
+}
+
+/* Título do Modal */
+.modal-regras h3 {
   text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: var(--text-main);
+}
+
+/* 3. Área de Conteúdo com Rolagem */
+.modal-scroll-content {
+  overflow-y: auto; /* Cria barra de rolagem se o texto for longo */
+  padding-right: 0.5rem; /* Espaço para a barra não colar no texto */
+  margin-bottom: 1rem;
+}
+
+/* Estilização da Barra de Rolagem (Webkit) */
+.modal-scroll-content::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-scroll-content::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+/* 4. Tipografia Interna */
+.regras-text {
+  font-size: 1.3rem; /* Fonte padrão Desktop */
+  line-height: 1.6;
+  color: #333;
+}
+
+.regras-text p {
+  margin-bottom: 1rem;
+}
+
+.text-destaque {
+  color: var(--primary); /* Verde destaque */
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.text-small {
+  font-size: 1.1rem;
+  color: #666;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.modal-divider {
+  margin: 1.5rem 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+/* Botão do Modal */
+.btn-modal {
+  margin-top: auto; /* Empurra o botão para o final */
+  width: 100%;
 }
 /* --- BOTÃO FLUTUANTE WHATSAPP --- */
 .whatsapp-float {
@@ -430,84 +580,186 @@ p {
   background-color: #1ebe57; /* Verde levemente mais escuro */
 }
 
-/* --- Responsividade (Mobile) --- */
+/* =========================================
+   RESPONSIVIDADE (MOBILE - TABLET E CELULAR)
+   Fontes: [1], [3]
+   ========================================= */
 @media (max-width: 768px) {
+  /* 1. Ajuste Geral do Layout */
   body {
-    padding-top: 5.5rem; /* Ajuste fino para mobile */
+    /* O header tem 7rem, então precisamos de mais espaço para não cortar o topo */
+    padding-top: 13rem;
   }
+
   main.container {
-    margin-top: 1.5rem;
-    padding: 2rem 1.5rem; /* Padding menor no mobile para ganhar espaço */
+    margin-top: 1rem;
+    padding: 2rem 1.5rem; /* Margem lateral menor para ganhar área útil */
+    width: 95%; /* Ocupa quase toda a largura */
   }
 
+  /* 2. Cabeçalho Compacto */
   .main-header {
-    padding: 0.5rem 0; /* Header mais compacto no celular */
+    height: 12rem;
+    padding: 0.5rem 0;
   }
 
-  /* Diminuindo as logos no celular */
-  .logo-gov,
-  .logo-partners {
-    height: 30px; /* Reduz de 50px para 30px */
+  .logo-img {
+    height: 32px; /* Reduz logos para equilibrar com o título */
+  }
+  .logos-row {
+    gap: 6rem;
+    margin-top: 3rem;
   }
 
-  /* Ajuste de texto para não quebrar o layout */
-  .header-content h1 {
-    font-size: 1.4rem; /* Texto menor */
+  .header-titles h1 {
+    font-size: 1.4rem;
   }
 
-  .header-content p {
+  .header-titles p {
     font-size: 1rem;
-    display: none; /* Opcional: Esconder o subtítulo se faltar espaço */
-  }
-  /* 1. Permitir que os cards quebrem de linha no celular */
-  .cards-container {
-    flex-wrap: wrap; /* Permite que itens vão para linha de baixo */
-    overflow-x: visible; /* Remove a rolagem lateral se houver */
-    justify-content: center; /* Centraliza os itens */
+    /* Se a tela for muito estreita, escondemos o subtítulo para não quebrar */
+    display: block;
   }
 
-  /* 2. Configurar os dois primeiros cards para dividirem a linha */
+  /* 3. Cards de Regras (Pirâmide Invertida) */
+  /* 1. Forçar linha única e permitir rolagem se necessário */
+  .cards-container {
+    flex-wrap: nowrap; /* Impede que os cards caiam para a linha de baixo [1] */
+    overflow-x: auto; /* Adiciona rolagem lateral se ficar pequeno demais */
+    justify-content: flex-start; /* Alinha ao início para evitar cortes */
+    gap: 1rem; /* Reduz o espaço entre eles para caber mais coisa */
+  }
+
+  /* 2. Permitir que os cards encolham */
   .card-rule {
-    flex: 1 1 40%; /* Cresce (1), Encolhe (1), Base (40%) */
-    min-width: auto; /* Remove a largura mínima fixa anterior */
+    /* flex-grow: 1 (cresce), flex-shrink: 1 (encolhe), flex-basis: auto (tamanho base) [4, 5] */
+    flex: 1 1 auto;
+
+    min-width: 0; /* CRUCIAL: Permite que o card encolha abaixo do tamanho do texto */
+    width: auto; /* Remove larguras fixas */
+    padding: 1rem; /* Reduz padding interno para ganhar espaço */
+  }
+
+  /* 3. Ajuste de Texto para caber em espaços pequenos */
+  .card-rule h3 {
+    font-size: 1.4rem; /* Diminui o tamanho da fonte do valor */
+  }
+
+  .card-rule small,
+  .card-rule p {
+    font-size: 0.9rem; /* Diminui textos auxiliares */
+    white-space: normal; /* Permite que o texto quebre linhas dentro do card */
+  }
+
+  /* 4. Removemos a regra antiga que forçava o último card a descer */
+  .card-rule:last-child {
+    flex-basis: auto; /* Volta ao comportamento normal */
+    margin-top: 0;
     width: auto;
   }
 
-  /* 3. Forçar o terceiro card (Limites) a ocupar 100% */
-  .card-rule:last-child {
-    flex-basis: 100%; /* Define a base como 100% da largura */
-    width: 100%; /* Garante ocupação total */
-    margin-top: 0.5rem; /* Um pequeno espaço extra acima dele */
-    margin-bottom: 0;
-    order: 3; /* Garante que seja o último visualmente */
-  }
+  /* 4. Simulador e Inputs */
   .simulator-section {
-    /* Reduz a distância externa em relação ao elemento de cima (Regras) */
     margin-top: 1rem;
+    padding-top: 1rem;
+  }
 
-    /* Reduz o preenchimento interno para ganhar espaço na tela */
+  .input-group label {
+    font-size: 1.3rem; /* Mantém legibilidade */
+  }
+  .main-footer {
+    /* 1. Reduz padding superior para "subir" o conteúdo */
     padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+
+    /* 2. AUMENTA padding inferior para afastar o nome do final da tela */
+    padding-bottom: 4rem;
   }
-  .input-group label,
-  .row {
-    font-size: 1.2rem; /* Diminui para 12px em telas médias */
+
+  .footer-container {
+    /* 3. Compacta os blocos (menos espaço entre logos, social e texto) */
+    gap: 1rem;
   }
+
+  /* 4. Diminui levemente as logos para ganhar altura */
+  .logo-img {
+    height: 28px;
+  }
+
+  .footer-logos {
+    padding: 0.5rem 1.5rem; /* Pílula mais fina */
+  }
+
+  /* 5. Ajuste fino de texto */
+  .footer-credits p {
+    font-size: 1.1rem;
+  }
+
+  /* 5. Botão WhatsApp (Bolinha) */
   .whatsapp-float span {
-    display: none;
+    display: none; /* Esconde o texto "Fale Conosco" */
   }
   .whatsapp-float {
-    padding: 12px; /* Redondo perfeito sem texto */
-    border-radius: 50%;
+    padding: 12px;
+    border-radius: 50%; /* Vira uma bola perfeita */
     bottom: 15px;
     right: 15px;
+    width: 50px; /* Garante tamanho do toque */
+    height: 50px;
+    justify-content: center;
+  }
+  .modal-regras {
+    width: 95%; /* Ocupa mais largura no celular */
+    padding: 1.5rem; /* Reduz espaçamento interno */
+    max-height: 85vh; /* Garante margem de segurança vertical */
+  }
+
+  .modal-regras h3 {
+    font-size: 1.4rem; /* Título menor */
+    margin-bottom: 1rem;
+  }
+
+  /* Reduz a fonte do texto para caber mais conteúdo */
+  .regras-text {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .text-destaque {
+    font-size: 1.2rem;
+  }
+
+  .text-small {
+    font-size: 0.95rem;
+  }
+
+  .btn-modal {
+    margin-top: 1rem;
+    padding: 0.8rem; /* Botão mais compacto */
   }
 }
-/* Ajuste para Celulares Pequenos (iPhone SE, etc) */
+
+/* =========================================
+   CELULARES PEQUENOS (Ex: iPhone SE - 320px a 380px)
+   Fontes: [4]
+   ========================================= */
 @media (max-width: 380px) {
-  .input-group label,
+  /* Esconde subtítulo para salvar altura */
+  .header-titles p {
+    display: none;
+  }
+
+  /* IMPORTANTE: Em telas muito pequenas, empilha os inputs em vez de diminuir a letra */
   .row {
-    font-size: 1.05rem; /* Diminui para ~10.5px para garantir a linha única */
-    letter-spacing: -0.02rem; /* Aperta levemente as letras se necessário */
+    flex-direction: column; /* Um input embaixo do outro */
+    gap: 1rem;
+  }
+
+  .input-group label {
+    font-size: 1.3rem; /* Mantém tamanho legível */
+  }
+
+  /* Botões de Ação também empilham */
+  .action-buttons {
+    flex-direction: column;
   }
 }

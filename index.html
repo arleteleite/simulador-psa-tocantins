@@ -14,26 +14,31 @@
     <!-- Cabeçalho: Logotipo do Governo em Cima -->
     <header class="main-header">
       <div class="header-content">
-        <!-- Item 1: Logo Governo (Esquerda) -->
-        <img
-          src="assets/img/logo-tocantins.png"
-          alt="Governo do Tocantins"
-          class="logo-gov"
-        />
+        <!-- LINHA 1: As Logos lado a lado -->
+        <div class="logos-row">
+          <!-- Logo 1 -->
+          <img
+            src="assets/img/logo-tocantins.png"
+            alt="Governo do Tocantins"
+            class="logo-img"
+          />
 
-        <!-- Item 2: Títulos (Centro) -->
-        <div class="text-center">
-          <h1>Simulador PSA</h1>
-          <!-- <p>Floresta+ Amazônia</p> -->
+          <!-- Separador visual (opcional) -->
+          <div class="separator"></div>
+
+          <!-- Logo 2 -->
+          <img
+            src="assets/img/logo-floresta.png"
+            alt="Floresta+ Amazônia"
+            class="logo-img"
+          />
         </div>
 
-        <!-- Item 3: Logo Parceiros (Direita) - Adicione se tiver uma segunda logo -->
-        <!-- Se não tiver segunda logo, o Flexbox vai alinhar a logo 1 e o texto -->
-        <img
-          src="assets/img/logo-floresta.png"
-          alt="Parceiros"
-          class="logo-partners"
-        />
+        <!-- LINHA 2: Títulos Centralizados -->
+        <div class="header-titles">
+          <h1>SIMULADOR PSA</h1>
+          <p>Floresta+ Tocantins</p>
+        </div>
       </div>
     </header>
 
@@ -41,10 +46,8 @@
       <!-- Seção de Regras com Texto da Revisão -->
       <section class="rules-section">
         <!-- Título Principal da Seção -->
-        <h2>Regras da Chamada Pública Nº 02/2024</h2>
-        <p class="rules-desc">
-          Entenda os valores praticados no Edital de Conservação.
-        </p>
+        <h2>Como funiona o pagamento</h2>
+        <p class="rules-desc">Regras da Chamada Pública Nº 02/2024.</p>
 
         <!-- Container do Cabeçalho das Regras (Título menor + Botão) -->
         <div class="rules-header-content">
@@ -74,7 +77,8 @@
           <div class="card-rule">
             <h3>Limites</h3>
             <small>Anuais</small>
-            <p>Min R$ 1.500,00 / Max R$ 28.000,00</p>
+            <p>Min R$ 1.500,00 /</p>
+            <p>Max R$ 28.000,00</p>
           </div>
         </div>
       </section>
@@ -165,46 +169,47 @@
       class="modal-overlay hidden"
       onclick="fecharModalRegras(event)"
     >
-      <div class="modal-content" style="text-align: left; max-width: 500px">
-        <h3 style="text-align: center; margin-bottom: 1.5rem">
-          Regras da Chamada Pública Nº 02/2024
-        </h3>
+      <!-- Adicionei a classe 'modal-regras' para controle específico -->
+      <div class="modal-content modal-regras" onclick="event.stopPropagation()">
+        <h3>Regras da Chamada Pública Nº 02/2024</h3>
 
-        <div style="font-size: 1.3rem; line-height: 1.6; color: #333">
-          <p><strong>Entenda os valores praticados:</strong></p>
-          <br />
-          <p>
-            <strong>R$ 200,00</strong><br />
-            Por hectare de Vegetação Nativa na <strong>Faixa 1</strong> (imóveis
-            com até 80% de Vegetação Nativa em área de Floresta, 35% em Cerrado
-            e 20% em Campos Gerais).
-          </p>
-          <br />
-          <p>
-            <strong>R$ 800,00</strong><br />
-            Por hectare de Vegetação Nativa na <strong>Faixa 2</strong> (imóveis
-            com mais de 80% de Vegetação Nativa em área de Floresta, 35% em
-            Cerrado e 20% em Campos Gerais).
-          </p>
-          <br />
-          <hr style="margin: 1rem 0; border-color: #eee" />
-          <p>
-            <strong>Limites:</strong><br />
-            R$ 1.500,00 é o pagamento mínimo e <strong>R$ 28.000,00</strong> o
-            teto máximo anual por imóvel rural.
-          </p>
-          <br />
-          <p style="font-size: 1.1rem; color: #666">
-            *Uma pessoa pode receber por mais de uma área, desde que a soma de
-            todos os imóveis vinculados ao CPF não ultrapasse 4 módulos fiscais.
-          </p>
+        <!-- Container com rolagem para textos longos -->
+        <div class="modal-scroll-content">
+          <div class="regras-text">
+            <p><strong>Entenda os valores praticados:</strong></p>
+
+            <p>
+              <strong class="text-destaque">R$ 200,00</strong><br />
+              Por hectare de Vegetação Nativa na
+              <strong>Faixa 1</strong> (imóveis com até 80% de Vegetação Nativa
+              em área de Floresta, 35% em Cerrado e 20% em Campos Gerais).
+            </p>
+
+            <p>
+              <strong class="text-destaque">R$ 800,00</strong><br />
+              Por hectare de Vegetação Nativa na
+              <strong>Faixa 2</strong> (imóveis com mais de 80% de Vegetação
+              Nativa em área de Floresta, 35% em Cerrado e 20% em Campos
+              Gerais).
+            </p>
+
+            <hr class="modal-divider" />
+
+            <p>
+              <strong>Limites:</strong><br />
+              R$ 1.500,00 é o pagamento mínimo e <strong>R$ 28.000,00</strong> o
+              teto máximo anual por imóvel rural.
+            </p>
+
+            <p class="text-small">
+              *Uma pessoa pode receber por mais de uma área, desde que a soma de
+              todos os imóveis vinculados ao CPF não ultrapasse 4 módulos
+              fiscais.
+            </p>
+          </div>
         </div>
 
-        <button
-          onclick="fecharModalRegras(null)"
-          class="btn-primary"
-          style="margin-top: 2rem"
-        >
+        <button onclick="fecharModalRegras(null)" class="btn-primary btn-modal">
           Entendi
         </button>
       </div>
@@ -213,9 +218,8 @@
     <!-- Rodapé Full Width -->
     <footer class="main-footer">
       <div class="footer-container">
-        <!-- 1. Logos dos Parceiros (Em caixa branca para destaque) -->
+        <!-- 1. Logos dos Parceiros -->
         <div class="footer-logos">
-          <!-- Ajuste os caminhos (src) conforme suas pastas -->
           <img
             src="assets/img/logo-tocantins.png"
             alt="Governo do Tocantins"
@@ -229,7 +233,7 @@
           />
         </div>
 
-        <!-- 2. Redes Sociais e Links -->
+        <!-- 2. Redes Sociais -->
         <div class="footer-social">
           <p>Acompanhe a SEMARH</p>
           <div class="social-icons">
@@ -238,7 +242,6 @@
               target="_blank"
               aria-label="Instagram"
             >
-              <!-- SVG do Instagram (Branco) -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -262,7 +265,6 @@
               target="_blank"
               aria-label="Site Oficial"
             >
-              <!-- SVG de Link/Site (Branco) -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -284,7 +286,7 @@
           </div>
         </div>
 
-        <!-- 3. Créditos e Desenvolvedora (Discreto) -->
+        <!-- 3. Créditos Centralizados -->
         <div class="footer-credits">
           <p>Secretaria do Meio Ambiente e Recursos Hídricos</p>
           <small class="dev-name">Desenvolvido por Arlete Leite Lima</small>

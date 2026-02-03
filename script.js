@@ -16,16 +16,16 @@ const CONFIG = {
   },
 };
 
-// Formatação de Moeda
+/* Formatação de Moeda*/
 const formatarMoeda = (valor) =>
-  valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 /* =========================================
    2. Inicialização e Eventos
    ========================================= */
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("formPSA");
-  form.addEventListener("submit", (event) => {
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('formPSA');
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
     calcularPSA();
   });
@@ -35,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
    3. Lógica de Cálculo e Validação
    ========================================= */
 function calcularPSA() {
-  const areaTotal = parseFloat(document.getElementById("areaTotal").value) || 0;
-  const rlExigida = parseFloat(document.getElementById("rlExigida").value) || 0;
-  const vegNativa = parseFloat(document.getElementById("vegNativa").value) || 0;
+  const areaTotal = parseFloat(document.getElementById('areaTotal').value) || 0;
+  const rlExigida = parseFloat(document.getElementById('rlExigida').value) || 0;
+  const vegNativa = parseFloat(document.getElementById('vegNativa').value) || 0;
 
   if (!validarEntradas(areaTotal, rlExigida, vegNativa)) return;
 
@@ -52,7 +52,7 @@ function calcularPSA() {
   const valorExc = areaPagaExc * CONFIG.VALORES.EXCEDENTE_HA;
 
   let valorTotal = valorRL + valorExc;
-  let msgAviso = "";
+  let msgAviso = '';
 
   // Pisos e Tetos [7]
   if (valorTotal > CONFIG.LIMITES.TETO_ANUAL) {
@@ -71,7 +71,7 @@ function validarEntradas(areaTotal, rlExigida, vegNativa) {
   const limiteArea = CONFIG.MODULO_FISCAL_HA * CONFIG.MAX_MODULOS;
   if (areaTotal > limiteArea) {
     mostrarModal(
-      "Critério de Elegibilidade",
+      'Critério de Elegibilidade',
       `Imóvel inelegível: Área total (${areaTotal}ha) maior que ${CONFIG.MAX_MODULOS} módulos fiscais.`,
     );
     return false;
@@ -80,8 +80,8 @@ function validarEntradas(areaTotal, rlExigida, vegNativa) {
   // Validação 2: Vegetação Nativa vs Área Total [9]
   if (vegNativa > areaTotal) {
     mostrarModal(
-      "Erro de Preenchimento",
-      "A vegetação nativa não pode ser superior à área total do imóvel.",
+      'Erro de Preenchimento',
+      'A vegetação nativa não pode ser superior à área total do imóvel.',
     );
     return false;
   }
@@ -89,16 +89,16 @@ function validarEntradas(areaTotal, rlExigida, vegNativa) {
   // NOVO: Validação 3: Reserva Legal vs Área Total (Solicitado)
   if (rlExigida > areaTotal) {
     mostrarModal(
-      "Erro de Preenchimento",
-      "A área de Reserva Legal não pode ser superior à área total do imóvel.",
+      'Erro de Preenchimento',
+      'A área de Reserva Legal não pode ser superior à área total do imóvel.',
     );
     return false;
   }
 
   if (vegNativa <= 0) {
     mostrarModal(
-      "Dado Inválido",
-      "Informe uma área de vegetação nativa válida.",
+      'Dado Inválido',
+      'Informe uma área de vegetação nativa válida.',
     );
     return false;
   }
@@ -107,19 +107,19 @@ function validarEntradas(areaTotal, rlExigida, vegNativa) {
 }
 
 function atualizarTela(total, vRl, vExc, aviso) {
-  const resultadoDiv = document.getElementById("resultado");
-  resultadoDiv.classList.remove("hidden");
+  const resultadoDiv = document.getElementById('resultado');
+  resultadoDiv.classList.remove('hidden');
 
-  document.getElementById("valorFinal").innerText = formatarMoeda(total);
-  document.getElementById("detalheRL").innerText = formatarMoeda(vRl);
-  document.getElementById("detalheExc").innerText = formatarMoeda(vExc);
+  document.getElementById('valorFinal').innerText = formatarMoeda(total);
+  document.getElementById('detalheRL').innerText = formatarMoeda(vRl);
+  document.getElementById('detalheExc').innerText = formatarMoeda(vExc);
 
-  const msgElement = document.getElementById("msgAviso");
+  const msgElement = document.getElementById('msgAviso');
   if (aviso) {
     msgElement.innerText = aviso;
-    msgElement.classList.remove("hidden");
+    msgElement.classList.remove('hidden');
   } else {
-    msgElement.classList.add("hidden");
+    msgElement.classList.add('hidden');
   }
 }
 
@@ -129,56 +129,56 @@ function atualizarTela(total, vRl, vExc, aviso) {
 
 // Função auxiliar para abrir o modal
 function mostrarModal(titulo, mensagem) {
-  const modal = document.getElementById("modalAviso");
-  const tituloEl = document.getElementById("modalTitulo");
-  const msgEl = document.getElementById("modalMensagem");
+  const modal = document.getElementById('modalAviso');
+  const tituloEl = document.getElementById('modalTitulo');
+  const msgEl = document.getElementById('modalMensagem');
 
   if (modal && tituloEl && msgEl) {
     tituloEl.innerText = titulo;
     msgEl.innerText = mensagem;
-    modal.classList.remove("hidden"); // Remove a classe que esconde [10]
+    modal.classList.remove('hidden'); // Remove a classe que esconde [10]
   }
 }
 
 // Configuração dos Eventos ao carregar a página [11]
-document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("modalAviso");
-  const btnFechar = document.getElementById("btnFecharModal");
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('modalAviso');
+  const btnFechar = document.getElementById('btnFecharModal');
 
   // 1. Evento para o botão "Entendi"
   if (btnFechar) {
-    btnFechar.addEventListener("click", () => {
-      modal.classList.add("hidden"); // Adiciona a classe para esconder [9]
+    btnFechar.addEventListener('click', () => {
+      modal.classList.add('hidden'); // Adiciona a classe para esconder [9]
     });
   }
 
   // 2. Evento para fechar clicando fora da caixa branca (Overlay) [9]
   if (modal) {
-    modal.addEventListener("click", (event) => {
+    modal.addEventListener('click', (event) => {
       if (event.target === modal) {
-        modal.classList.add("hidden");
+        modal.classList.add('hidden');
       }
     });
   }
 });
 
 function abrirModalRegras() {
-  const modal = document.getElementById("modalRegras");
-  modal.classList.remove("hidden"); // Remove a classe que esconde
+  const modal = document.getElementById('modalRegras');
+  modal.classList.remove('hidden'); // Remove a classe que esconde
 }
 
 function fecharModalRegras(event) {
   // Se clicou no botão ou no fundo escuro (overlay), fecha
   // Se clicou DENTRO do conteúdo branco, não fecha
-  if (event === null || event.target.id === "modalRegras") {
-    const modal = document.getElementById("modalRegras");
-    modal.classList.add("hidden"); // Adiciona a classe que esconde
+  if (event === null || event.target.id === 'modalRegras') {
+    const modal = document.getElementById('modalRegras');
+    modal.classList.add('hidden'); // Adiciona a classe que esconde
   }
 }
 /* --- Controle do Botão Flutuante (Não cobrir rodapé) --- */
-window.addEventListener("scroll", function () {
-  const btnWhats = document.querySelector(".whatsapp-float");
-  const footer = document.querySelector(".main-footer");
+window.addEventListener('scroll', function () {
+  const btnWhats = document.querySelector('.whatsapp-float');
+  const footer = document.querySelector('.main-footer');
 
   if (!btnWhats || !footer) return; // Segurança caso não ache os elementos
 
@@ -195,6 +195,6 @@ window.addEventListener("scroll", function () {
     btnWhats.style.bottom = `${20 + diferenca}px`;
   } else {
     // Se o rodapé não está visível, mantém na posição original
-    btnWhats.style.bottom = "20px";
+    btnWhats.style.bottom = '20px';
   }
 });
