@@ -34,9 +34,8 @@ body {
   background-color: var(--bg-light);
   color: var(--text);
   /* Mantém o espaço para o header fixo, mas removemos paddings laterais */
-  padding-top: 9rem;
+  padding-top: 11rem;
   padding-bottom: 0; /* Removemos o padding inferior do body pois o footer já tem espaço */
-  padding-top: 14rem;
 }
 h2 {
   font-size: 2rem;
@@ -61,102 +60,82 @@ main.container {
 /* --- Cabeçalho Fixo e Layout --- */
 /* --- Cabeçalho Fixo --- */
 .main-header {
+  /* 1. FUNDO: Gradiente sobre Imagem */
   background-image:
-    linear-gradient(to bottom, rgba(20, 40, 15, 0.6), rgba(45, 74, 34, 0.4)),
-    url('assets/img/backgraud_cabecalho.png');
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    linear-gradient(to bottom, rgba(20, 40, 15, 0.85), rgba(45, 74, 34, 0.6)),
+    url('assets/img/backgraud_cabecalho.png'); /* Verifique se o nome do arquivo está correto */
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-  /* Fixação no topo */
+  /* 2. FIXAÇÃO E TAMANHO */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  height: 100%;
-  display: flex;
-  align-items: center; /* Centraliza verticalmente */
-  padding: 1.5rem 0;
-  height: auto; /* Altura automática para caber o conteúdo empilhado */
+  padding: 0.6rem 0; /* Padding vertical pequeno para ser compacto */
 }
 
-/* Container interno flexível */
+/* Container que segura e alinha o conteúdo */
 .header-content {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: column; /* Empilha: Logos (Linha 1) -> Título (Linha 2) */
   align-items: center;
-  width: 95%;
-  max-width: 1000px; /* Largura máxima maior para caber as 3 peças */
-  margin: 0 auto;
-  padding: 0 1rem;
-  gap: 0.8rem;
+
+  width: 95%; /* Ocupa quase toda a largura */
+  max-width: 1200px; /* Trava a largura em telas muito grandes */
+  margin: 0 auto; /* Centraliza o container */
+  gap: 0.5rem; /* Espaço pequeno entre logos e título */
 }
 
-/* --- Configuração das Logos --- */
-/* --- Linha das Logos (Lado a Lado) --- */
+/* --- LINHA 1: Logos nas Extremidades --- */
 .logos-row {
-  display: flex; /* Garante que fiquem na mesma linha */
+  display: flex;
   align-items: center;
-  gap: 25rem; /* Distância entre a logo do Gov e do Parceiro */
+
+  /* O PULO DO GATO: Joga uma logo para cada ponta */
+  justify-content: space-between;
+  width: 100%; /* Obrigatório para o space-between funcionar */
+
+  /* Filtro para deixar branco (se suas imagens não forem brancas) */
   filter: brightness(0) invert(1);
 }
 
 .logo-img {
-  height: 38px; /* Altura padrão desktop */
-  width: auto; /* Mantém proporção */
+  height: 35px; /* Tamanho padrão desktop */
+  width: auto;
   display: block;
+  transition: transform 0.3s;
 }
+
 .logo-img:hover {
-  transform: scale(1.05);
+  transform: scale(1.05); /* Efeito de zoom suave */
 }
 
-/* Linha vertical fina entre as logos */
-/* .separator {
-  width: 1px;
-  height: 25px;
-  background-color: rgba(255, 255, 255, 0.4);
-} */
-/* Garante que as áreas das logos tenham tamanho similar para manter o título no centro exato */
-.header-logo-left,
-.header-logo-right {
-  flex: 1; /* Ocupa espaço disponível lateral */
-  display: flex;
-}
-
-.header-logo-left {
-  justify-content: flex-start;
-} /* Alinha na esquerda */
-.header-logo-right {
-  justify-content: flex-end;
-} /* Alinha na direita */
-
-/* --- Configuração dos Títulos --- */
+/* --- LINHA 2: Títulos Centralizados --- */
 .header-titles {
-  flex: 2; /* Ocupa mais espaço no centro */
   text-align: center;
+  margin-top: -5px; /* Puxa levemente para cima para compactar */
 }
 
 .header-titles h1 {
-  font-size: 2.2rem;
+  font-size: 1.6rem;
   color: var(--white);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  line-height: 1.1;
+  line-height: 1.2;
   margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para leitura */
 }
 
 .header-titles p {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
-  margin-top: 0.2rem;
-}
-
-/* --- Compensação para o Conteúdo não ficar escondido --- */
-body {
-  padding-top: 14rem;
+  margin: 0;
+  letter-spacing: 0.5px;
 }
 
 /* --- Cabeçalho Interno das Regras --- */
@@ -214,29 +193,32 @@ p {
 
 /* --- Cards Individuais --- */
 .card-rule {
-  flex: 1; /* Faz os cards crescerem igualmente [3] */
-  min-width: 140px;
-  /* min-height: 1rem; */
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  padding: 1rem;
-  padding-bottom: 0.1rem;
-  border-radius: 8px;
+  flex: 1;
+  min-width: 150px;
+  background: var(--white);
+  border: 1px solid #e3e6e8;
+  border-radius: 14px;
+  padding: 1.2rem 1rem;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
 .card-rule h3 {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: var(--primary);
   font-weight: 800;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
 }
 
 .card-rule p {
   font-size: 1.1rem;
   font-weight: 600;
-  margin-top: 0.5rem;
+  color: #555;
+  margin: 0.2rem 0;
+}
+.card-rule small {
+  font-size: 1rem;
+  color: #777;
 }
 
 .simulator-section {
@@ -581,185 +563,171 @@ p {
 }
 
 /* =========================================
-   RESPONSIVIDADE (MOBILE - TABLET E CELULAR)
-   Fontes: [1], [3]
+   RESPONSIVIDADE: MOBILE (Até 768px)
+   Fontes: [5-7]
    ========================================= */
 @media (max-width: 768px) {
-  /* 1. Ajuste Geral do Layout */
+  /* 1. LAYOUT GERAL & BODY */
   body {
-    /* O header tem 7rem, então precisamos de mais espaço para não cortar o topo */
-    padding-top: 13rem;
+    /* Ajustamos o topo dinamicamente para compensar o header fixo */
+    padding-top: 11rem;
   }
 
   main.container {
     margin-top: 1rem;
-    padding: 2rem 1.5rem; /* Margem lateral menor para ganhar área útil */
-    width: 95%; /* Ocupa quase toda a largura */
+    padding: 2rem 1.5rem;
+    width: 95%; /* [6] Ocupa quase toda a largura para aproveitar espaço */
   }
 
-  /* 2. Cabeçalho Compacto */
+  /* 2. CABEÇALHO (Dinâmico e Compacto) */
   .main-header {
-    height: 12rem;
-    padding: 0.5rem 0;
+    height: auto; /* [8] Altura se ajusta ao conteúdo, não fixa */
+    min-height: 80px; /* Garante um tamanho mínimo de toque */
+    padding: 0.8rem 0;
+  }
+
+  .header-content {
+    width: 92%;
+    gap: 0.5rem;
+  }
+
+  /* Logos: Ajuste de segurança para não estourarem a tela */
+  .logos-row {
+    gap: 1rem; /* [9] Reduzido de 6rem para evitar quebra horizontal */
+    width: 100%;
+    margin-top: 0;
+    justify-content: space-between; /* Mantém logos nas extremidades */
   }
 
   .logo-img {
-    height: 32px; /* Reduz logos para equilibrar com o título */
-  }
-  .logos-row {
-    gap: 6rem;
-    margin-top: 3rem;
+    height: 28px; /* Tamanho equilibrado para mobile */
   }
 
+  /* Títulos: Tipografia ajustada */
   .header-titles h1 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    line-height: 1.2;
   }
 
   .header-titles p {
-    font-size: 1rem;
-    /* Se a tela for muito estreita, escondemos o subtítulo para não quebrar */
-    display: block;
+    font-size: 0.9rem;
+    display: block; /* Mantém o subtítulo visível */
+    opacity: 0.9;
   }
 
-  /* 3. Cards de Regras (Pirâmide Invertida) */
-  /* 1. Forçar linha única e permitir rolagem se necessário */
+  /* 3. CARDS DE REGRAS (Comportamento de Carrossel/Scroll) */
   .cards-container {
-    flex-wrap: nowrap; /* Impede que os cards caiam para a linha de baixo [1] */
-    overflow-x: auto; /* Adiciona rolagem lateral se ficar pequeno demais */
-    justify-content: flex-start; /* Alinha ao início para evitar cortes */
-    gap: 1rem; /* Reduz o espaço entre eles para caber mais coisa */
+    display: flex; /* [3] Garante flexbox */
+    flex-wrap: nowrap; /* Impede quebra de linha (Cards lado a lado) */
+    overflow-x: auto; /* Permite rolagem lateral se faltar espaço */
+    justify-content: flex-start;
+    gap: 1rem;
+    padding-bottom: 1rem; /* Espaço para a barra de rolagem (se visível) */
+
+    /* [Opcional] Rolagem suave nativa para celular */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  .cards-container::-webkit-scrollbar {
+    height: 6px;
   }
 
-  /* 2. Permitir que os cards encolham */
+  .cards-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+  }
+
   .card-rule {
-    /* flex-grow: 1 (cresce), flex-shrink: 1 (encolhe), flex-basis: auto (tamanho base) [4, 5] */
-    flex: 1 1 auto;
-
-    min-width: 0; /* CRUCIAL: Permite que o card encolha abaixo do tamanho do texto */
-    width: auto; /* Remove larguras fixas */
-    padding: 1rem; /* Reduz padding interno para ganhar espaço */
+    flex: 0 0 auto; /* Não encolhe demais, força o scroll se necessário */
+    width: 42%; /* Mostra 2 cards e um pedaço do 3º (dica visual de scroll) */
+    min-width: 140px; /* [CRUCIAL] Impede que o card fique ilegível */
+    padding: 1rem;
   }
 
-  /* 3. Ajuste de Texto para caber em espaços pequenos */
   .card-rule h3 {
-    font-size: 1.4rem; /* Diminui o tamanho da fonte do valor */
+    font-size: 1.3rem;
   }
 
   .card-rule small,
   .card-rule p {
-    font-size: 0.9rem; /* Diminui textos auxiliares */
-    white-space: normal; /* Permite que o texto quebre linhas dentro do card */
+    font-size: 0.85rem;
+    white-space: normal; /* Texto quebra linha dentro do card */
   }
 
-  /* 4. Removemos a regra antiga que forçava o último card a descer */
-  .card-rule:last-child {
-    flex-basis: auto; /* Volta ao comportamento normal */
-    margin-top: 0;
-    width: auto;
-  }
-
-  /* 4. Simulador e Inputs */
+  /* 4. SIMULADOR (Inputs) */
   .simulator-section {
     margin-top: 1rem;
     padding-top: 1rem;
   }
 
   .input-group label {
-    font-size: 1.3rem; /* Mantém legibilidade */
+    font-size: 1.2rem;
   }
-  .main-footer {
-    /* 1. Reduz padding superior para "subir" o conteúdo */
-    padding-top: 1.5rem;
 
-    /* 2. AUMENTA padding inferior para afastar o nome do final da tela */
-    padding-bottom: 4rem;
+  /* Ajuste para inputs ficarem confortáveis ao toque */
+  input[type='number'] {
+    font-size: 1.1rem; /* [10] Evita zoom automático no iPhone */
+    padding: 0.8rem;
+  }
+
+  /* 5. RODAPÉ (Compacto mas com espaço para o botão WhatsApp) */
+  .main-footer {
+    padding-top: 2rem;
+    /* Espaço generoso embaixo para o botão flutuante não cobrir textos */
+    padding-bottom: 5rem;
   }
 
   .footer-container {
-    /* 3. Compacta os blocos (menos espaço entre logos, social e texto) */
-    gap: 1rem;
-  }
-
-  /* 4. Diminui levemente as logos para ganhar altura */
-  .logo-img {
-    height: 28px;
+    gap: 1.5rem; /* Espaçamento vertical uniforme */
   }
 
   .footer-logos {
-    padding: 0.5rem 1.5rem; /* Pílula mais fina */
+    padding: 0.6rem 1.5rem;
   }
 
-  /* 5. Ajuste fino de texto */
+  /* Ajuste específico para o texto de créditos */
   .footer-credits p {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    max-width: 80%; /* Evita que o texto encoste nas bordas */
+    margin: 0 auto;
   }
 
-  /* 5. Botão WhatsApp (Bolinha) */
+  /* 6. BOTÃO FLUTUANTE (WhatsApp) */
   .whatsapp-float span {
-    display: none; /* Esconde o texto "Fale Conosco" */
+    display: none; /* Esconde texto, mostra só ícone */
   }
+
   .whatsapp-float {
-    padding: 12px;
-    border-radius: 50%; /* Vira uma bola perfeita */
-    bottom: 15px;
-    right: 15px;
-    width: 50px; /* Garante tamanho do toque */
-    height: 50px;
-    justify-content: center;
+    width: 55px; /* Área de toque maior (padrão UX mobile) */
+    height: 55px;
+    padding: 0;
+    border-radius: 50%;
+    bottom: 20px;
+    right: 20px;
+    justify-content: center; /* Centraliza o ícone na bolinha */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
+
+  /* 7. MODAL / POPUP DE REGRAS */
   .modal-regras {
-    width: 95%; /* Ocupa mais largura no celular */
-    padding: 1.5rem; /* Reduz espaçamento interno */
-    max-height: 85vh; /* Garante margem de segurança vertical */
+    width: 92%; /* Mais margem lateral */
+    max-height: 80vh; /* Evita cortar em telas pequenas viradas */
+    padding: 1.5rem;
+    margin: auto; /* Centralização flex */
   }
 
   .modal-regras h3 {
-    font-size: 1.4rem; /* Título menor */
+    font-size: 1.4rem;
     margin-bottom: 1rem;
   }
 
-  /* Reduz a fonte do texto para caber mais conteúdo */
   .regras-text {
     font-size: 1.1rem;
     line-height: 1.5;
   }
 
-  .text-destaque {
-    font-size: 1.2rem;
-  }
-
-  .text-small {
-    font-size: 0.95rem;
-  }
-
   .btn-modal {
     margin-top: 1rem;
-    padding: 0.8rem; /* Botão mais compacto */
-  }
-}
-
-/* =========================================
-   CELULARES PEQUENOS (Ex: iPhone SE - 320px a 380px)
-   Fontes: [4]
-   ========================================= */
-@media (max-width: 380px) {
-  /* Esconde subtítulo para salvar altura */
-  .header-titles p {
-    display: none;
-  }
-
-  /* IMPORTANTE: Em telas muito pequenas, empilha os inputs em vez de diminuir a letra */
-  .row {
-    flex-direction: column; /* Um input embaixo do outro */
-    gap: 1rem;
-  }
-
-  .input-group label {
-    font-size: 1.3rem; /* Mantém tamanho legível */
-  }
-
-  /* Botões de Ação também empilham */
-  .action-buttons {
-    flex-direction: column;
+    padding: 1rem; /* Botão maior para toque fácil */
   }
 }
