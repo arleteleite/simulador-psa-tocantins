@@ -600,7 +600,7 @@ p {
   }
 
   .logo-img {
-    height: 18px; /* Tamanho equilibrado para mobile */
+    height: 15px; /* Tamanho equilibrado para mobile */
   }
 
   /* Títulos: Tipografia ajustada */
@@ -731,4 +731,3 @@ p {
     padding: 1rem; /* Botão maior para toque fácil */
   }
 }
-
