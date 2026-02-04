@@ -600,12 +600,12 @@ p {
   }
 
   .logo-img {
-    height: 28px; /* Tamanho equilibrado para mobile */
+    height: 18px; /* Tamanho equilibrado para mobile */
   }
 
   /* Títulos: Tipografia ajustada */
   .header-titles h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     line-height: 1.2;
   }
 
@@ -731,3 +731,4 @@ p {
     padding: 1rem; /* Botão maior para toque fácil */
   }
 }
+
